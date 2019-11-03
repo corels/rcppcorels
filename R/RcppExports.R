@@ -5,6 +5,11 @@ rcpp_hello_world <- function() {
     .Call(`_RcppCorels_rcpp_hello_world`)
 }
 
+#' R Interface to 'Certifiably Optimal RulE ListS (Corels)'
+#'
+#' Nothing here yet.
+#' @title Corels interace
+#' @return A constant bool for now
 corels <- function() {
     .Call(`_RcppCorels_corels`)
 }

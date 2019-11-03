@@ -6,9 +6,9 @@ Date: 2019-11-03
 Author: Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: The 'Certifiably Optimal RulE ListS (Corels)' learner by
- Angelino et al <arxiv:1704.01701> provides interpretable decision
- with an optimality guarantee, and is made available to R via this
- package.
+ Angelino et al described in <arXiv:1704.01701> provides interpretable decision
+ rules with an optimality guarantee, and is made available to R with this package.
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.2)
 LinkingTo: Rcpp
+RoxygenNote: 6.0.1
