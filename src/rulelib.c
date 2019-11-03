@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2016 Hongyu Yang, Cynthia Rudin, Margo Seltzer, and
  * The President and Fellows of Harvard College
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
  * "Software"), to deal in the Software without restriction, including
@@ -250,7 +250,7 @@ ascii_to_vector(char *line, size_t len, int *nsamples, int *nones, VECTOR *ret)
 	}
 	if ((s = mpz_sizeinbase (*ret, 2)) > (size_t) *nsamples)
 		*nsamples = (int) s;
-		
+
 	*nones = mpz_popcount(*ret);
 	return (0);
 #else
