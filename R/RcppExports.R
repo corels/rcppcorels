@@ -5,3 +5,7 @@ rcpp_hello_world <- function() {
     .Call(`_RcppCorels_rcpp_hello_world`)
 }
 
+corels <- function() {
+    .Call(`_RcppCorels_corels`)
+}
+
