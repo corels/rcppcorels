@@ -50,3 +50,23 @@ R Interface to 'Certifiably Optimal RulE ListS (Corels)'
 \details{
 Nothing here yet.
 }
+\examples{
+library(RcppCorels)
+
+logdir <- tempdir()
+rules_file <- system.file("sample_data", "compas_train.out", package="RcppCorels")
+labels_file <- system.file("sample_data", "compas_train.label", package="RcppCorels")
+meta_file <- system.file("sample_data", "compas_train.minor", package="RcppCorels")
+
+stopifnot(file.exists(rules_file),
+          file.exists(labels_file),
+          file.exists(meta_file),
+          dir.exists(logdir))
+
+corels(rules_file, labels_file, logdir, meta_file,
+       verbosity = 100,
+       regularization = 0.015,
+       curiosity_policy = 2,   # by lower bound
+       map_type = 1) 	   # permutation map
+cat("See ", logdir, " for result file.")
+}

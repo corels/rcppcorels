@@ -21,6 +21,25 @@
 #' @param logging_frequency Integer value
 #' @param ablation Double value
 #' @return A constant bool for now
+#' @examples
+#' library(RcppCorels)
+#'
+#' logdir <- tempdir()
+#' rules_file <- system.file("sample_data", "compas_train.out", package="RcppCorels")
+#' labels_file <- system.file("sample_data", "compas_train.label", package="RcppCorels")
+#' meta_file <- system.file("sample_data", "compas_train.minor", package="RcppCorels")
+#'
+#' stopifnot(file.exists(rules_file),
+#'           file.exists(labels_file),
+#'           file.exists(meta_file),
+#'           dir.exists(logdir))
+#'
+#' corels(rules_file, labels_file, logdir, meta_file,
+#'        verbosity = 100,
+#'        regularization = 0.015,
+#'        curiosity_policy = 2,   # by lower bound
+#'        map_type = 1) 	   # permutation map
+#' cat("See ", logdir, " for result file.")
 corels <- function(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE, calculate_size = FALSE, run_curiosity = FALSE, curiosity_policy = 0L, latex_out = FALSE, map_type = 0L, verbosity = 0L, max_num_nodes = 100000L, regularization = 0.01, logging_frequency = 1000L, ablation = 0L) {
     .Call(`_RcppCorels_corels`, rules_file, labels_file, log_dir, meta_file, run_bfs, calculate_size, run_curiosity, curiosity_policy, latex_out, map_type, verbosity, max_num_nodes, regularization, logging_frequency, ablation)
 }

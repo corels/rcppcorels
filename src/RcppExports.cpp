@@ -6,15 +6,15 @@
 using namespace Rcpp;
 
 // corels
-bool corels(const char* rules_file, const char* labels_file, const char* log_dir, const char* meta_file, bool run_bfs, bool calculate_size, bool run_curiosity, int curiosity_policy, bool latex_out, int map_type, int verbosity, int max_num_nodes, double regularization, int logging_frequency, int ablation);
+bool corels(std::string rules_file, std::string labels_file, std::string log_dir, std::string meta_file, bool run_bfs, bool calculate_size, bool run_curiosity, int curiosity_policy, bool latex_out, int map_type, int verbosity, int max_num_nodes, double regularization, int logging_frequency, int ablation);
 RcppExport SEXP _RcppCorels_corels(SEXP rules_fileSEXP, SEXP labels_fileSEXP, SEXP log_dirSEXP, SEXP meta_fileSEXP, SEXP run_bfsSEXP, SEXP calculate_sizeSEXP, SEXP run_curiositySEXP, SEXP curiosity_policySEXP, SEXP latex_outSEXP, SEXP map_typeSEXP, SEXP verbositySEXP, SEXP max_num_nodesSEXP, SEXP regularizationSEXP, SEXP logging_frequencySEXP, SEXP ablationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const char* >::type rules_file(rules_fileSEXP);
-    Rcpp::traits::input_parameter< const char* >::type labels_file(labels_fileSEXP);
-    Rcpp::traits::input_parameter< const char* >::type log_dir(log_dirSEXP);
-    Rcpp::traits::input_parameter< const char* >::type meta_file(meta_fileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type rules_file(rules_fileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type labels_file(labels_fileSEXP);
+    Rcpp::traits::input_parameter< std::string >::type log_dir(log_dirSEXP);
+    Rcpp::traits::input_parameter< std::string >::type meta_file(meta_fileSEXP);
     Rcpp::traits::input_parameter< bool >::type run_bfs(run_bfsSEXP);
     Rcpp::traits::input_parameter< bool >::type calculate_size(calculate_sizeSEXP);
     Rcpp::traits::input_parameter< bool >::type run_curiosity(run_curiositySEXP);

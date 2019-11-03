@@ -32,11 +32,30 @@ NullLogger* logger;
 //' @param logging_frequency Integer value
 //' @param ablation Double value
 //' @return A constant bool for now
+//' @examples
+//' library(RcppCorels)
+//'
+//' logdir <- tempdir()
+//' rules_file <- system.file("sample_data", "compas_train.out", package="RcppCorels")
+//' labels_file <- system.file("sample_data", "compas_train.label", package="RcppCorels")
+//' meta_file <- system.file("sample_data", "compas_train.minor", package="RcppCorels")
+//'
+//' stopifnot(file.exists(rules_file),
+//'           file.exists(labels_file),
+//'           file.exists(meta_file),
+//'           dir.exists(logdir))
+//'
+//' corels(rules_file, labels_file, logdir, meta_file,
+//'        verbosity = 100,
+//'        regularization = 0.015,
+//'        curiosity_policy = 2,   # by lower bound
+//'        map_type = 1) 	   # permutation map
+//' cat("See ", logdir, " for result file.")
 // [[Rcpp::export]]
-bool corels(const char* rules_file,
-            const char* labels_file,
-            const char* log_dir,
-            const char* meta_file = "",
+bool corels(std::string rules_file,
+            std::string labels_file,
+            std::string log_dir,
+            std::string meta_file = "",
             bool run_bfs = false,
             bool calculate_size = false,
             bool run_curiosity = false,
@@ -54,7 +73,7 @@ bool corels(const char* rules_file,
     //int curiosity_policy = 0;
     //bool latex_out = false;
     bool use_prefix_perm_map = (map_type==1);
-    bool use_captured_sym_map = (map_type=2);
+    bool use_captured_sym_map = (map_type==2);
     //int verbosity = 0;
     //int map_type = 0;
     //int max_num_nodes = 100000;
@@ -75,14 +94,14 @@ bool corels(const char* rules_file,
 
     int nrules, nsamples, nlabels, nsamples_chk;
     rule_t *rules, *labels;
-    rules_init(rules_file, &nrules, &nsamples, &rules, 1);
-    rules_init(labels_file, &nlabels, &nsamples_chk, &labels, 0);
+    rules_init(rules_file.c_str(), &nrules, &nsamples, &rules, 1);
+    rules_init(labels_file.c_str(), &nlabels, &nsamples_chk, &labels, 0);
 
     int nmeta, nsamples_check;
     // Equivalent points information is precomputed, read in from file, and stored in meta
     rule_t *meta;
-    if (strcmp(meta_file, "") != 0)
-        rules_init(meta_file, &nmeta, &nsamples_check, &meta, 0);
+    if (meta_file != "")
+        rules_init(meta_file.c_str(), &nmeta, &nsamples_check, &meta, 0);
     else
         meta = NULL;
 
@@ -91,9 +110,9 @@ bool corels(const char* rules_file,
     char froot[BUFSZ];
     char log_fname[BUFSZ+4];
     char opt_fname[BUFSZ+8];
-    const char* pch = strrchr(rules_file, '/');
+    const char* pch = strrchr(rules_file.c_str(), '/');
     snprintf(froot, BUFSZ, "%s/for-%s-%s%s-%s-%s-removed=%s-max_num_nodes=%d-c=%.7f-v=%d-f=%d",
-             log_dir,
+             log_dir.c_str(),
              pch ? pch + 1 : "",
              run_bfs ? "bfs" : "",
              run_curiosity ? curiosity_map[curiosity_policy].c_str() : "",
