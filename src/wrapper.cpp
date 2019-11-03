@@ -48,8 +48,6 @@ bool corels(const char* rules_file,
             double regularization = 0.01,
             int logging_frequency = 1000,
             int ablation = 0) {
-    int argc;
-    char *argv[3];
 
     //bool run_bfs = false;
     //bool run_curiosity = false;
@@ -77,14 +75,14 @@ bool corels(const char* rules_file,
 
     int nrules, nsamples, nlabels, nsamples_chk;
     rule_t *rules, *labels;
-    rules_init(argv[0], &nrules, &nsamples, &rules, 1);
-    rules_init(argv[1], &nlabels, &nsamples_chk, &labels, 0);
+    rules_init(rules_file, &nrules, &nsamples, &rules, 1);
+    rules_init(labels_file, &nlabels, &nsamples_chk, &labels, 0);
 
     int nmeta, nsamples_check;
     // Equivalent points information is precomputed, read in from file, and stored in meta
     rule_t *meta;
-    if (argc == 3)
-        rules_init(argv[2], &nmeta, &nsamples_check, &meta, 0);
+    if (strcmp(meta_file, "") != 0)
+        rules_init(meta_file, &nmeta, &nsamples_check, &meta, 0);
     else
         meta = NULL;
 
@@ -93,7 +91,7 @@ bool corels(const char* rules_file,
     char froot[BUFSZ];
     char log_fname[BUFSZ+4];
     char opt_fname[BUFSZ+8];
-    const char* pch = strrchr(argv[0], '/');
+    const char* pch = strrchr(rules_file, '/');
     snprintf(froot, BUFSZ, "%s/for-%s-%s%s-%s-%s-removed=%s-max_num_nodes=%d-c=%.7f-v=%d-f=%d",
              log_dir,
              pch ? pch + 1 : "",
