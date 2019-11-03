@@ -1,7 +1,7 @@
 #pragma once
 
-#include "utils.hh"
-#include "alloc.hh"
+#include "utils.h"
+#include "alloc.h"
 #include "rule.h"
 #include <iterator>
 #include <map>

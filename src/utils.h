@@ -165,9 +165,9 @@ class Logger : public NullLogger {
   public:
     void closeFile() override { if (_f.is_open()) _f.close(); }
     Logger(double c, size_t nrules, int verbosity, char* log_fname, int freq);
-    ~Logger() { 
+    ~Logger() {
         free(_state.prefix_lens);
-        closeFile(); 
+        closeFile();
     }
 
     void setLogFileName(char *fname) override;
@@ -290,7 +290,7 @@ class Logger : public NullLogger {
     }
     inline void updateQueueMinLen() override {
         // Note: min length is logically undefined when queue size is 0
-        size_t min_length = 0; 
+        size_t min_length = 0;
         for(size_t i = 0; i < _nrules; ++i) {
             if (_state.prefix_lens[i] > 0) {
                 min_length = i;
@@ -340,7 +340,7 @@ class Logger : public NullLogger {
         if (f_naive < f)
             f = f_naive;
         mpz_set_ui(tot, _nrules - len_prefix);
-        for (unsigned int k = (_nrules - len_prefix - 1); 
+        for (unsigned int k = (_nrules - len_prefix - 1);
                 k >= (_nrules - len_prefix - f + 1); k--) {
             mpz_addmul_ui(tot, tot, k);
         }
@@ -392,7 +392,7 @@ class Logger : public NullLogger {
     }
     inline size_t getLogRemainingSpaceSize() override {
         // This is approximate.
-        return mpz_sizeinbase(_state.remaining_space_size, 10); 
+        return mpz_sizeinbase(_state.remaining_space_size, 10);
     }
 };
 
@@ -408,8 +408,8 @@ inline double time_diff(double t0) {
     return timestamp() - t0;
 }
 
-#include "alloc.hh"
-/* 
+#include "alloc.h"
+/*
  * Prints the final rulelist that CORELS returns.
  * rulelist -- rule ids of optimal rulelist
  * preds -- corresponding predictions of rules (+ default prediction)
