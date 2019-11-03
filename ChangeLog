@@ -18,6 +18,16 @@
 	* src/unused/main.cc: Idem
 	* src/utils.cc: Idem
 
+        * inst/sample_data/compas_test-binary.csv: Idem
+        * inst/sample_data/compas_test.csv: Idem
+        * inst/sample_data/compas_test.label: Idem
+        * inst/sample_data/compas_test.out: Idem
+        * inst/sample_data/compas_train-binary.csv: Idem
+        * inst/sample_data/compas_train.csv: Idem
+        * inst/sample_data/compas_train.label: Idem
+        * inst/sample_data/compas_train.minor: Idem
+        * inst/sample_data/compas_train.out: Idem
+	
 	* src/wrapper.cpp: Added interface wrapper
 	* src/Makevars: Added minimal build system
 

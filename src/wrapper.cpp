@@ -185,5 +185,5 @@ bool corels(const char* rules_file,
     Rprintf("tree destructors\n");
 
 
-  return true;                  // more to fill in, naturally
+    return true;                  // more to fill in, naturally
 }
