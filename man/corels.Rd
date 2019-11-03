@@ -4,7 +4,42 @@
 \alias{corels}
 \title{Corels interace}
 \usage{
-corels()
+corels(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE,
+  calculate_size = FALSE, run_curiosity = FALSE, curiosity_policy = 0L,
+  latex_out = FALSE, map_type = 0L, verbosity = 0L,
+  max_num_nodes = 100000L, regularization = 0.01,
+  logging_frequency = 1000L, ablation = 0L)
+}
+\arguments{
+\item{rules_file}{Character variable with rules file name}
+
+\item{labels_file}{Character variable with labels file name}
+
+\item{log_dir}{Character variable with logfile directory name}
+
+\item{meta_file}{Optional character variable with labels file name}
+
+\item{run_bfs}{Boolean toggle}
+
+\item{calculate_size}{Boolean toggle}
+
+\item{run_curiosity}{Boolean toggle}
+
+\item{curiosity_policy}{Integer value}
+
+\item{latex_out}{Boolean toggle}
+
+\item{map_type}{Integer value}
+
+\item{verbosity}{Integer value}
+
+\item{max_num_nodes}{Integer value}
+
+\item{regularization}{Double value}
+
+\item{logging_frequency}{Integer value}
+
+\item{ablation}{Double value}
 }
 \value{
 A constant bool for now

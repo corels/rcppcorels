@@ -1,0 +1,29 @@
+2019-11-03  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/wrapper.cpp: Complete interface
+
+	* DESCRIPTION: Basic edits
+
+	* src/alloc.h: Added from corels, *.hh renamed to *.h
+	* src/cache.h: Idem
+	* pmap.h: Idem
+	* src/queue.h: Idem
+	* src/rule.h: Idem
+	* src/utils.h: Idem
+
+	* src/cache.cc: Added from corels
+	* src/corels.cc: Idem
+	* src/pmap.cc: Idem
+	* src/rulelib.c: Idem
+	* src/unused/main.cc: Idem
+	* src/utils.cc: Idem
+
+	* src/wrapper.cpp: Added interface wrapper
+	* src/Makevars: Added minimal build system
+
+	* src/RcppExports.cpp: Added generated file
+	* R/RcppExports.R: Idem
+	
+	* src/rcpp_hello_world.cpp: Removed file added by package helper
+	* man/rcpp_hello_world.Rd: Idem
+	* Read-and-delete-me: Idem
