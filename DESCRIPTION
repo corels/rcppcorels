@@ -1,11 +1,14 @@
 Package: RcppCorels
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
-Version: 1.0
+Title: R binding for the 'Certifiably Optimal RulE ListS (Corels)' Learner 
+Version: 0.0.1
 Date: 2019-11-03
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one or more full sentences.
+Author: Dirk Eddelbuettel
+Maintainer: Dirk Eddelbuettel <edd@debian.org>
+Description: The 'Certifiably Optimal RulE ListS (Corels)' learner by
+ Angelino et al <arxiv:1704.01701> provides interpretable decision
+ with an optimality guarantee, and is made available to R via this
+ package.
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.2)
 LinkingTo: Rcpp
