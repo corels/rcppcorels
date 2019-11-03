@@ -1,0 +1,6 @@
+
+CXX_STD = CXX11
+
+PKG_CFLAGS = -I. -DGMP -DSKIP_MAIN
+
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -lgmpxx -lgmp
