@@ -29,6 +29,8 @@
 #include <unistd.h>
 #include "rule.h"
 
+#define STRICT_R_HEADERS
+#include "R.h"
 
 /* Function declarations. */
 int ascii_to_vector(char *, size_t, int *, int *, VECTOR *);
@@ -312,7 +314,7 @@ ascii_to_vector(char *line, size_t len, int *nsamples, int *nones, VECTOR *ret)
 	if (*nsamples == 0)
 		*nsamples = i;
 	else if (*nsamples != i) {
-		fprintf(stderr, "Wrong number of samples. Expected %d got %d\n",
+		REprintf("Wrong number of samples. Expected %d got %d\n",
 		    *nsamples, i);
 		/* free(buf); */
 		buf = NULL;
@@ -904,7 +906,7 @@ ruleset_print(ruleset_t *rs, rule_t *rules, int detail)
 	int i, n;
 	int total_support;
 
-	printf("%d rules %d samples\n", rs->n_rules, rs->n_samples);
+	Rprintf("%d rules %d samples\n", rs->n_rules, rs->n_samples);
 	n = (rs->n_samples + BITS_PER_ENTRY - 1) / BITS_PER_ENTRY;
 
 	total_support = 0;
@@ -913,13 +915,13 @@ ruleset_print(ruleset_t *rs, rule_t *rules, int detail)
 		ruleset_entry_print(rs->rules + i, n, detail);
 		total_support += rs->rules[i].ncaptured;
 	}
-	printf("Total Captured: %d\n", total_support);
+	Rprintf("Total Captured: %d\n", total_support);
 }
 
 void
 ruleset_entry_print(ruleset_entry_t *re, int n, int detail)
 {
-	printf("%d captured; \n", re->ncaptured);
+	Rprintf("%d captured; \n", re->ncaptured);
 	if (detail)
 		rule_vector_print(re->captures, n);
 }
@@ -930,7 +932,7 @@ rule_print(rule_t *rules, int ndx, int n, int detail)
 	rule_t *r;
 
 	r = rules + ndx;
-	printf("RULE %d: ( %s ), support=%d, card=%d:",
+	Rprintf("RULE %d: ( %s ), support=%d, card=%d:",
 	    ndx, r->features, r->support, r->cardinality);
 	if (detail)
 		rule_vector_print(r->truthtable, n);
@@ -939,14 +941,14 @@ rule_print(rule_t *rules, int ndx, int n, int detail)
 void
 rule_vector_print(VECTOR v, int n)
 {
-#ifdef GMP
-	mpz_out_str(stdout, 16, v);
-	printf("\n");
-#else
+//#ifdef GMP
+        //mpz_out_str(stdout, 16, v);
+//	Rprintf("\n");
+//#else
 	for (int i = 0; i < n; i++)
-		printf("0x%lx ", v[i]);
-	printf("\n");
-#endif
+		Rprintf("0x%lx ", v[i]);
+	Rprintf("\n");
+//#endif
 
 }
 

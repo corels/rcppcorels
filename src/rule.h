@@ -74,7 +74,8 @@ typedef v_entry *VECTOR;
 #define BITS_PER_ENTRY (sizeof(v_entry) * 8)
 
 #define RANDOM_RANGE(lo, hi) \
-    (unsigned)(lo + (unsigned)((random() / (float)RAND_MAX) * (hi - lo + 1)))
+    (unsigned)(lo + (unsigned)(unif_rand() * (hi - lo + 1)))
+    /*(unsigned)(lo + (unsigned)((random() / (float)RAND_MAX) * (hi - lo + 1)))*/
 
 /*
  * We have slightly different structures to represent the original rules 
@@ -99,7 +100,8 @@ typedef struct ruleset {
 	int n_rules;			/* Number of actual rules. */
 	int n_alloc;			/* Spaces allocated for rules. */
 	int n_samples;
-	ruleset_entry_t rules[];	/* Array of rules. */
+        //ruleset_entry_t rules[];	/* Array of rules. */
+	ruleset_entry_t *rules;		/* Array of rules. */
 } ruleset_t;
 
 typedef struct params {
@@ -178,4 +180,3 @@ pred_model_t *train(data_t *, int, int, params_t *);
 #if defined(__cplusplus)
 }
 #endif
-

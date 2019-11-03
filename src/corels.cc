@@ -4,6 +4,9 @@
 #include <sys/resource.h>
 #include <stdio.h>
 
+#define STRICT_R_HEADERS
+#include "R.h"
+
 Queue::Queue(std::function<bool(Node*, Node*)> cmp, char const *type)
     : q_(new q (cmp)), type_(type) {}
 
@@ -81,7 +84,7 @@ void evaluate_children(CacheTree* tree, Node* parent, tracking_vector<unsigned s
         logger->addToObjTime(time_diff(t2));
         logger->incObjNum();
         if (objective < tree->min_objective()) {
-            printf("min(objective): %1.5f -> %1.5f, length: %d, cache size: %zu\n",
+            Rprintf("min(objective): %1.5f -> %1.5f, length: %d, cache size: %zu\n",
                    tree->min_objective(), objective, len_prefix, tree->num_nodes());
 
             logger->setTreeMinObj(objective);
@@ -193,13 +196,13 @@ int bbound(CacheTree* tree, size_t max_num_nodes, Queue* q, PermutationMap* p) {
             if (tree->min_objective() < min_objective) {
                 min_objective = tree->min_objective();
                 if (verbosity >= 10)
-                    printf("before garbage_collect. num_nodes: %zu, log10(remaining): %zu\n",
+                    Rprintf("before garbage_collect. num_nodes: %zu, log10(remaining): %zu\n",
                             tree->num_nodes(), logger->getLogRemainingSpaceSize());
                 logger->dumpState();
                 tree->garbage_collect();
                 logger->dumpState();
                 if (verbosity >= 10)
-                    printf("after garbage_collect. num_nodes: %zu, log10(remaining): %zu\n", tree->num_nodes(), logger->getLogRemainingSpaceSize());
+                    Rprintf("after garbage_collect. num_nodes: %zu, log10(remaining): %zu\n", tree->num_nodes(), logger->getLogRemainingSpaceSize());
             }
         }
         logger->setQueueSize(q->size());
@@ -211,7 +214,7 @@ int bbound(CacheTree* tree, size_t max_num_nodes, Queue* q, PermutationMap* p) {
         ++num_iter;
         if ((num_iter % 10000) == 0) {
             if (verbosity >= 10)
-                printf("iter: %zu, tree: %zu, queue: %zu, pmap: %zu, log10(remaining): %zu, time elapsed: %f\n",
+                Rprintf("iter: %zu, tree: %zu, queue: %zu, pmap: %zu, log10(remaining): %zu, time elapsed: %f\n",
                        num_iter, tree->num_nodes(), q->size(), p->size(), logger->getLogRemainingSpaceSize(), time_diff(start));
         }
         if ((num_iter % logger->getFrequency()) == 0) {
@@ -221,33 +224,33 @@ int bbound(CacheTree* tree, size_t max_num_nodes, Queue* q, PermutationMap* p) {
     }
     logger->dumpState(); // second last log record (before queue elements deleted)
     if (verbosity >= 1)
-        printf("iter: %zu, tree: %zu, queue: %zu, pmap: %zu, log10(remaining): %zu, time elapsed: %f\n",
+        Rprintf("iter: %zu, tree: %zu, queue: %zu, pmap: %zu, log10(remaining): %zu, time elapsed: %f\n",
                num_iter, tree->num_nodes(), q->size(), p->size(), logger->getLogRemainingSpaceSize(), time_diff(start));
     if (q->empty())
-        printf("Exited because queue empty\n");
+        Rprintf("Exited because queue empty\n");
     else
-        printf("Exited because max number of nodes in the tree was reached\n");
+        Rprintf("Exited because max number of nodes in the tree was reached\n");
 
     size_t tree_mem = logger->getTreeMemory();
     size_t pmap_mem = logger->getPmapMemory();
     size_t queue_mem = logger->getQueueMemory();
-    printf("TREE mem usage: %zu\n", tree_mem);
-    printf("PMAP mem usage: %zu\n", pmap_mem);
-    printf("QUEUE mem usage: %zu\n", queue_mem);
+    Rprintf("TREE mem usage: %zu\n", tree_mem);
+    Rprintf("PMAP mem usage: %zu\n", pmap_mem);
+    Rprintf("QUEUE mem usage: %zu\n", queue_mem);
 
     // Print out queue
     ofstream f;
     if (print_queue) {
         char fname[] = "queue.txt";
-        printf("Writing queue elements to: %s\n", fname);
+        Rprintf("Writing queue elements to: %s\n", fname);
         f.open(fname, ios::out | ios::trunc);
         f << "lower_bound objective length frac_captured rule_list\n";
     }
 
     // Clean up data structures
-    printf("Deleting queue elements and corresponding nodes in the cache,"
+    Rprintf("Deleting queue elements and corresponding nodes in the cache,"
             "since they may not be reachable by the tree's destructor\n");
-    printf("\nminimum objective: %1.10f\n", tree->min_objective());
+    Rprintf("\nminimum objective: %1.10f\n", tree->min_objective());
     Node* node;
     double min_lower_bound = 1.0;
     double lb;
@@ -278,7 +281,7 @@ int bbound(CacheTree* tree, size_t max_num_nodes, Queue* q, PermutationMap* p) {
             }
         }
     }
-    printf("minimum lower bound in queue: %1.10f\n\n", min_lower_bound);
+    Rprintf("minimum lower bound in queue: %1.10f\n\n", min_lower_bound);
     if (print_queue)
         f.close();
     // last log record (before cache deleted)

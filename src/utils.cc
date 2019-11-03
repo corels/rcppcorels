@@ -3,6 +3,8 @@
 #include <assert.h>
 #include <sys/utsname.h>
 
+#define STRICT_R_HEADERS
+#include "R.h"
 
 Logger::Logger(double c, size_t nrules, int verbosity, char* log_fname, int freq) {
       _c = c;
@@ -19,7 +21,7 @@ Logger::Logger(double c, size_t nrules, int verbosity, char* log_fname, int freq
 void Logger::setLogFileName(char *fname) {
     if (_v < 1) return;
 
-    printf("writing logs to: %s\n\n", fname);
+    Rprintf("writing logs to: %s\n\n", fname);
     _f.open(fname, ios::out | ios::trunc);
 
     _f << "total_time,evaluate_children_time,node_select_time,"
@@ -111,43 +113,43 @@ void print_final_rulelist(const tracking_vector<unsigned short, DataStruct::Tree
                           char fname[]) {
     assert(rulelist.size() == preds.size() - 1);
 
-    printf("\nOPTIMAL RULE LIST\n");
+    Rprintf("\nOPTIMAL RULE LIST\n");
     if (rulelist.size() > 0) {
-        printf("if (%s) then (%s)\n", rules[rulelist[0]].features,
+        Rprintf("if (%s) then (%s)\n", rules[rulelist[0]].features,
                labels[preds[0]].features);
         for (size_t i = 1; i < rulelist.size(); ++i) {
-            printf("else if (%s) then (%s)\n", rules[rulelist[i]].features,
+            Rprintf("else if (%s) then (%s)\n", rules[rulelist[i]].features,
                    labels[preds[i]].features);
         }
-        printf("else (%s)\n\n", labels[preds.back()].features);
+        Rprintf("else (%s)\n\n", labels[preds.back()].features);
 
         if (latex_out) {
-            printf("\nLATEX form of OPTIMAL RULE LIST\n");
-            printf("\\begin{algorithmic}\n");
-            printf("\\normalsize\n");
-            printf("\\State\\bif (%s) \\bthen (%s)\n", rules[rulelist[0]].features,
+            Rprintf("\nLATEX form of OPTIMAL RULE LIST\n");
+            Rprintf("\\begin{algorithmic}\n");
+            Rprintf("\\normalsize\n");
+            Rprintf("\\State\\bif (%s) \\bthen (%s)\n", rules[rulelist[0]].features,
                    labels[preds[0]].features);
             for (size_t i = 1; i < rulelist.size(); ++i) {
-                printf("\\State\\belif (%s) \\bthen (%s)\n", rules[rulelist[i]].features,
+                Rprintf("\\State\\belif (%s) \\bthen (%s)\n", rules[rulelist[i]].features,
                        labels[preds[i]].features);
             }
-            printf("\\State\\belse (%s)\n", labels[preds.back()].features);
-            printf("\\end{algorithmic}\n\n");
+            Rprintf("\\State\\belse (%s)\n", labels[preds.back()].features);
+            Rprintf("\\end{algorithmic}\n\n");
         }
     } else {
-        printf("if (1) then (%s)\n\n", labels[preds.back()].features);
+        Rprintf("if (1) then (%s)\n\n", labels[preds.back()].features);
 
         if (latex_out) {
-            printf("\nLATEX form of OPTIMAL RULE LIST\n");
-            printf("\\begin{algorithmic}\n");
-            printf("\\normalsize\n");
-            printf("\\State\\bif (1) \\bthen (%s)\n", labels[preds.back()].features);
-            printf("\\end{algorithmic}\n\n");
+            Rprintf("\nLATEX form of OPTIMAL RULE LIST\n");
+            Rprintf("\\begin{algorithmic}\n");
+            Rprintf("\\normalsize\n");
+            Rprintf("\\State\\bif (1) \\bthen (%s)\n", labels[preds.back()].features);
+            Rprintf("\\end{algorithmic}\n\n");
         }
     }
 
     ofstream f;
-    printf("writing optimal rule list to: %s\n\n", fname);
+    Rprintf("writing optimal rule list to: %s\n\n", fname);
     f.open(fname, ios::out | ios::trunc);
     for(size_t i = 0; i < rulelist.size(); ++i) {
         f << rules[rulelist[i]].features << "~"
@@ -164,7 +166,7 @@ void print_machine_info() {
     struct utsname buffer;
 
     if (uname(&buffer) == 0) {
-        printf("System information:\n"
+        Rprintf("System information:\n"
                "system name-> %s; node name-> %s; release-> %s; "
                "version-> %s; machine-> %s\n\n",
                buffer.sysname,
