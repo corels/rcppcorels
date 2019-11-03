@@ -1,0 +1,28 @@
+inst/lib
+.Rproj.user
+src/*.o
+src/*.so
+src/*.dll
+src/symbols.rds
+.Rhistory
+.RData
+.DS_Store
+
+## QtCreator
+Rcpp.pro
+Rcpp.pro.user
+*.autosave
+.#*
+
+*.tar.gz
+*~
+
+vignettes/*_cache
+
+## GNU global
+GPATH
+GRTAGS
+GTAGS
+
+##
+local/

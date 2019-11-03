@@ -1,0 +1,15 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+doxyfile
+\.travis\.yml
+\.dir-locals\.el
+\.clang_format
+^Contributing.md$
+^\.codecov\.yml$
+LICENSE
+.*\.tar\.gz$
+\.editorconfig
+^GPATH
+^GRTAGS
+^GTAGS
+^local
