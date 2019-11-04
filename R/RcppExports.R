@@ -3,24 +3,29 @@
 
 #' R Interface to 'Certifiably Optimal RulE ListS (Corels)'
 #'
-#' Nothing here yet.
+#' CORELS is a custom discrete optimization technique for building rule lists over a categorical feature space. The algorithm provides the optimal solution with a certificate of optimality. By leveraging algorithmic bounds, efficient data structures, and computational reuse, it achieves several orders of magnitude speedup in time and a massive reduction of memory consumption. This approach produces optimal rule lists on practical problems in seconds, and offers a novel alternative to CART and other decision tree methods.
 #' @title Corels interace
-#' @param rules_file Character variable with rules file name
-#' @param labels_file Character variable with labels file name
+#' @param rules_file Character variable with file name for training data; see corels documentation and data section below.
+#' @param labels_file Character variable with file name for training data labels; see corels documentation and data section below.
 #' @param log_dir Character variable with logfile directory name
-#' @param meta_file Optional character variable with labels file name
-#' @param run_bfs Boolean toggle
-#' @param calculate_size Boolean toggle
+#' @param meta_file Optional character variable with file name for minor data with bit vector to support equivalent points bound (see Theorem 20 in Section 3.14).
+#' @param run_bfs Boolean toggle for \sQuote{breadth-first search}. Exactly one of \sQuote{breadth-first search} or \sQuote{curiosity_policy} \emph{must} be specified.
+#' @param calculate_size Optional boolean toggle to calculate upper bound on remaining search space size which adds a small overheard; default is to not do this.
 #' @param run_curiosity Boolean toggle
-#' @param curiosity_policy Integer value
-#' @param latex_out Boolean toggle
-#' @param map_type Integer value
+#' @param curiosity_policy Integer value (between 1 and 4) for best-fist search policy. Exactly one of \sQuote{breadth-first search} or \sQuote{curiosity_policy} \emph{must} be specified. The four different prirization schemes are chosen, respectively, by values of one for prioritize by curiousity (see Section 5.1 of the paper), two for prioritize by the lower bound, three for prioritize by the objective or four for depth-first search.
+#' @param latex_out Optional boolean toggle to select LaTeX output of the output rule list.
+#' @param map_type Optional integer value for the symmetry-aware map. Use zero for no symmetry-aware map (this is also the default), one for permutation map, and two for the captured vector map.
 #' @param verbosity Integer value
-#' @param max_num_nodes Integer value
-#' @param regularization Double value
-#' @param logging_frequency Integer value
-#' @param ablation Double value
+#' @param max_num_nodes Integer value for the maximum trie cache size; execution stops when the number of node isn trie exceeds this number; default is 100000.
+#' @param regularization Optional double value, default is 0.01 which can be thought of as a penalty equivalent to misclassifying 1\% of the data when increasing the length of a rule list by one association rule.
+#' @param logging_frequency Optional integer value with default of 1000.
+#' @param ablation Integer value, default value is zero, one excludes the minimum support bounds (see Section 3.7), two excludes the lookahead bound (see Lemma 2 in Section 3.4).
 #' @return A constant bool for now
+#' @seealso The corels C++ implementation at https://github.com/nlarusstone/corels, the website at https://github.com/nlarusstone/corels and the Python implementation at https://github.com/fingoldin/pycorels.
+#' @references Elaine Angelino, Nicholas Larus-Stone, Daniel Alabi, Margo Seltzer, and Cynthia Rudin. *Learning Certifiably Optimal Rule Lists for Categorical Data.* JMLR 2018, http://www.jmlr.org/papers/volume18/17-716/17-716.pdf
+#' Nicholas Larus-Stone, Elaine Angelino, Daniel Alabi, Margo Seltzer, Vassilios Kaxiras, Aditya Saligrama, Cynthia Rudin. *Systems Optimizations for Learning Certifiably Optimal Rule Lists*. SysML 2018 http://www.sysml.cc/doc/2018/54.pdf
+#' Nicholas Larus-Stone. *Learning Certifiably Optimal Rule Lists: A Case For Discrete Optimization in the 21st Century. Senior thesis 2017. https://dash.harvard.edu/handle/1/38811502.
+#' Elaine Angelino, Nicholas Larus-Stone, Daniel Alabi, Margo Seltzer, Cynthia Rudin. *Learning certifiably optimal rule lists for categorical data*. KDD 2017, https://www.kdd.org/kdd2017/papers/view/learning-certifiably-optimal-rule-lists-for-categorical-data.
 #' @examples
 #' library(RcppCorels)
 #'
