@@ -4,6 +4,8 @@
 
 	* DESCRIPTION: Basic edits
 
+	* README.md: Added
+
 	* src/alloc.h: Added from corels, *.hh renamed to *.h
 	* src/cache.h: Idem
 	* pmap.h: Idem
