@@ -23,6 +23,15 @@ thesis](https://dash.harvard.edu/handle/1/38811502) or the [KDD 2017
 paper](https://www.kdd.org/kdd2017/papers/view/learning-certifiably-optimal-rule-lists-for-categorical-data)
 for more.
 
+More about Corels can also be read in [this recent post at _The Morning Paper_](https://blog.acolyer.org/2019/10/30/corels/).
+
+## Illustration
+
+![](https://raw.githubusercontent.com/fingoldin/pycorels/master/utils/Corels.png)
+
+With thanks to the [Python
+implementation](https://github.com/fingoldin/pycorels/) for the image.
+
 ## What is this package?
 
 We use [Rcpp](https://github.com/RcppCore/Rcpp) to connect the [Corels C++
@@ -69,4 +78,4 @@ Madigan](https://arxiv.org/abs/1511.01644) now published in _Annals of Statistic
 
 This package is released under the GPL-3, as is Corels.
 
-The rulelib library under released under the MIT license.
+The rulelib library is released under the MIT license.
