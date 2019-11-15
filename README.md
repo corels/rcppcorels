@@ -56,7 +56,8 @@ so do `sudo apt-get install libgmp-dev` or whatever you need to do on your syste
 ## TODOs
 
 Plenty such as adding Travis CI support, adding configure code to detect GNU
-GMP presence, adding examples and more.
+GMP presence, adding examples, factoring out (input) data reader code,
+possibly visualizing decision trees, and more.
 
 ## Author
 

@@ -1,3 +1,11 @@
+2019-11-15  Dirk Eddelbuettel  <edd@debian.org>
+
+	* inst/AUTHORS: Added
+	* inst/LICENSE: Idem
+
+	* DESCRIPTION (Description): Reference AUTHORS file
+	* README.md: Small addition to TODOs
+
 2019-11-03  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/wrapper.cpp: Complete interface
