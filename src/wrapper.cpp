@@ -1,5 +1,6 @@
 
 #include "queue.h"
+#include "run.h"
 
 #define STRICT_R_HEADERS
 #include <Rcpp.h>
@@ -10,7 +11,7 @@
  * Logs statistics about the execution of the algorithm and dumps it to a file.
  * To turn off, pass verbosity <= 1
  */
-NullLogger* logger;
+//NullLogger* logger;
 
 //' R Interface to 'Certifiably Optimal RulE ListS (Corels)'
 //'
@@ -26,7 +27,7 @@ NullLogger* logger;
 //' @param curiosity_policy Integer value (between 1 and 4) for best-fist search policy. Exactly one of \sQuote{breadth-first search} or \sQuote{curiosity_policy} \emph{must} be specified. The four different prirization schemes are chosen, respectively, by values of one for prioritize by curiousity (see Section 5.1 of the paper), two for prioritize by the lower bound, three for prioritize by the objective or four for depth-first search.
 //' @param latex_out Optional boolean toggle to select LaTeX output of the output rule list.
 //' @param map_type Optional integer value for the symmetry-aware map. Use zero for no symmetry-aware map (this is also the default), one for permutation map, and two for the captured vector map.
-//' @param verbosity Integer value
+//' @param verbosity_policy Optional character variable one containing one or more of the terms \sQuote{rule}, \sQuote{label}, \sQuote{minor}, \sQuote{samples}, \sQuote{progress}, \sQuote{loud}, or \sQuote{silent}.
 //' @param max_num_nodes Integer value for the maximum trie cache size; execution stops when the number of node isn trie exceeds this number; default is 100000.
 //' @param regularization Optional double value, default is 0.01 which can be thought of as a penalty equivalent to misclassifying 1\% of the data when increasing the length of a rule list by one association rule.
 //' @param logging_frequency Optional integer value with default of 1000.
@@ -51,7 +52,7 @@ NullLogger* logger;
 //'           dir.exists(logdir))
 //'
 //' corels(rules_file, labels_file, logdir, meta_file,
-//'        verbosity = 100,
+//'        verbosity_policy = "silent",
 //'        regularization = 0.015,
 //'        curiosity_policy = 2,   # by lower bound
 //'        map_type = 1) 	   # permutation map
@@ -67,7 +68,7 @@ bool corels(std::string rules_file,
             int curiosity_policy = 0,
             bool latex_out = false,
             int map_type = 0,
-            int verbosity = 0,
+            std::string verbosity_policy = 0,
             int max_num_nodes = 100000,
             double regularization = 0.01,
             int logging_frequency = 1000,
@@ -90,6 +91,30 @@ bool corels(std::string rules_file,
     //int ablation = 0;
     //bool calculate_size = false;
 
+    std::set<std::string> verbosity;
+    char verbstr[64];
+    verbstr[0] = '\0';
+    if (!parse_verbosity(const_cast<char*>(verbosity_policy.c_str()), &verbstr[0],
+                         sizeof(verbstr), &verbosity)) {
+        Rcpp::stop("verbosity options must be one or more of (%s), separated with commas (i.e. -v progress,samples)", VERBSTR);
+    }
+    if (verbosity.count("samples") && !(verbosity.count("rule") || verbosity.count("label")
+                                        || verbosity.count("minor") || verbosity.count("loud"))) {
+        Rcpp::stop("verbosity 'samples' option must be combined with at least one of (rule|label|minor|samples|progress|loud|silent)");
+    }
+    if (verbosity.size() > 1 && verbosity.count("silent")) {
+        Rcpp::stop("verbosity 'silent' option must be passed without any additional verbosity parameters");
+    }
+
+    if (verbosity.size() == 0) {
+        verbosity.insert("progress");
+        strcpy(verbstr, "progress");
+    }
+
+    if (verbosity.count("silent")) {
+        verbosity.clear();
+        verbstr[0] = '\0';
+    }
 
     std::map<int, std::string> curiosity_map;
     curiosity_map[1] = "curiosity";
@@ -97,26 +122,58 @@ bool corels(std::string rules_file,
     curiosity_map[3] = "curious_obj";
     curiosity_map[4] = "dfs";
 
-    int nrules, nsamples, nlabels, nsamples_chk;
+    int nrules, nsamples, nlabels, nsamples_label;
     rule_t *rules, *labels;
-    rules_init(rules_file.c_str(), &nrules, &nsamples, &rules, 1);
-    rules_init(labels_file.c_str(), &nlabels, &nsamples_chk, &labels, 0);
 
-    int nmeta, nsamples_check;
+    if (rules_init(rules_file.c_str(), &nrules, &nsamples, &rules, 1) != 0) {
+        Rcpp::stop("Failed to load out file from path: %s\n", rules_file.c_str());
+    }
+
+    if (rules_init(labels_file.c_str(), &nlabels, &nsamples_label, &labels, 0) != 0) {
+        rules_free(rules, nrules, 1);
+        Rcpp::stop("Failed to load label file from path: %s\n", labels_file.c_str());
+    }
+
+    if (nlabels != 2) {
+        rules_free(rules, nrules, 1);
+        rules_free(labels, nlabels, 0);
+        Rcpp::stop("nlabels must be equal to 2, got %d\n", nlabels);
+    }
+
+    if(nsamples_label != nsamples) {
+        rules_free(rules, nrules, 1);
+        rules_free(labels, nlabels, 0);
+        Rcpp::stop("nsamples mismatch between out file (%d) and label file (%d)\n", nsamples, nsamples_label);
+    }
+
+    rules_init(rules_file.c_str(), &nrules, &nsamples, &rules, 1);
+    rules_init(labels_file.c_str(), &nlabels, &nsamples_label, &labels, 0);
+
+
+
+    int nmeta, nsamples_meta;
     // Equivalent points information is precomputed, read in from file, and stored in meta
     rule_t *meta;
-    if (meta_file != "")
-        rules_init(meta_file.c_str(), &nmeta, &nsamples_check, &meta, 0);
-    else
+    if (meta_file != "") {
+        if (rules_init(meta_file.c_str(), &nmeta, &nsamples_meta, &meta, 0) != 0) {
+            Rcpp::stop("Failed to load minor file from path: %s, skipping...", meta_file.c_str());
+            meta = NULL;
+            nmeta = 0;
+        } else if(nsamples_meta != nsamples) {
+            Rprintf("nsamples mismatch between out file (%d) and minor file (%d), skipping minor file...\n", nsamples, nsamples_meta);
+            rules_free(meta, nmeta, 0);
+            meta = NULL;
+            nmeta = 0;
+        }
+    } else {
         meta = NULL;
+    }
 
-    if (verbosity >= 10)
-        print_machine_info();
-    char froot[BUFSZ];
-    char log_fname[BUFSZ+4];
-    char opt_fname[BUFSZ+8];
+    char froot[BUFSZ+64];
+    char log_fname[BUFSZ+4+64];
+    char opt_fname[BUFSZ+8+64];
     const char* pch = strrchr(rules_file.c_str(), '/');
-    snprintf(froot, BUFSZ, "%s/for-%s-%s%s-%s-%s-removed=%s-max_num_nodes=%d-c=%.7f-v=%d-f=%d",
+    snprintf(froot, BUFSZ+64, "%s/for-%s-%s%s-%s-%s-removed=%s-max_num_nodes=%d-c=%.7f-v=%s-f=%d",
              log_dir.c_str(),
              pch ? pch + 1 : "",
              run_bfs ? "bfs" : "",
@@ -125,86 +182,37 @@ bool corels(std::string rules_file,
                 (use_captured_sym_map ? "with_captured_symmetry_map" : "no_pmap"),
              meta ? "minor" : "no_minor",
              ablation ? ((ablation == 1) ? "support" : "lookahead") : "none",
-             max_num_nodes, c, verbosity, freq);
-    snprintf(log_fname, BUFSZ+4, "%s.txt", froot);
-    snprintf(opt_fname, BUFSZ+8, "%s-opt.txt", froot);
+             max_num_nodes, c, verbstr, freq);
+    snprintf(log_fname, BUFSZ+4+64, "%s.txt", froot);
+    snprintf(opt_fname, BUFSZ+8+64, "%s-opt.txt", froot);
 
-    if (verbosity >= 1000) {
-        Rprintf("\n%d rules %d samples\n\n", nrules, nsamples);
-        rule_print_all(rules, nrules, nsamples);
 
-        Rprintf("\nLabels (%d) for %d samples\n\n", nlabels, nsamples);
-        rule_print_all(labels, nlabels, nsamples);
+    PermutationMap* pmap = NULL;
+    CacheTree* tree = NULL;
+    Queue* queue = NULL;
+    double init = 0.0;
+    std::set<std::string> run_verbosity;
+
+    if (run_corels_begin(c, &verbstr[0], curiosity_policy, map_type, ablation, calculate_size,
+                        nrules, nlabels, nsamples, rules, labels, meta, freq, &log_fname[0],
+                        pmap, tree, queue, init, run_verbosity) == 0) {
+        while (run_corels_loop(max_num_nodes, pmap, tree, queue) == 0) {
+            // do nothing
     }
 
-    if (verbosity > 1)
-        logger = new Logger(c, nrules, verbosity, log_fname, freq);
-    else
-        logger = new NullLogger();
-    double init = timestamp();
-    char run_type[BUFSZ];
-    Queue* q;
-    strcpy(run_type, "LEARNING RULE LIST via ");
-    char const *type = "node";
-    if (curiosity_policy == 1) {
-        strcat(run_type, "CURIOUS");
-        q = new Queue(curious_cmp, run_type);
-        type = "curious";
-    } else if (curiosity_policy == 2) {
-        strcat(run_type, "LOWER BOUND");
-        q = new Queue(lb_cmp, run_type);
-    } else if (curiosity_policy == 3) {
-        strcat(run_type, "OBJECTIVE");
-        q = new Queue(objective_cmp, run_type);
-    } else if (curiosity_policy == 4) {
-        strcat(run_type, "DFS");
-        q = new Queue(dfs_cmp, run_type);
+        std::vector<int> rulelist;
+        std::vector<int> classes;
+
+        run_corels_end(&rulelist, &classes, 0, latex_out, rules, labels, &opt_fname[0],
+                       pmap, tree, queue, init, verbosity);
+
     } else {
-        strcat(run_type, "BFS");
-        q = new Queue(base_cmp, run_type);
+        Rcpp::stop("Setup failed!");
     }
 
-    PermutationMap* p;
-    if (use_prefix_perm_map) {
-        strcat(run_type, " Prefix Map\n");
-        PrefixPermutationMap* prefix_pmap = new PrefixPermutationMap;
-        p = (PermutationMap*) prefix_pmap;
-    } else if (use_captured_sym_map) {
-        strcat(run_type, " Captured Symmetry Map\n");
-        CapturedPermutationMap* cap_pmap = new CapturedPermutationMap;
-        p = (PermutationMap*) cap_pmap;
-    } else {
-        strcat(run_type, " No Permutation Map\n");
-        NullPermutationMap* null_pmap = new NullPermutationMap;
-        p = (PermutationMap*) null_pmap;
-    }
-
-    CacheTree* tree = new CacheTree(nsamples, nrules, c, rules, labels, meta, ablation, calculate_size, type);
-    Rprintf("%s", run_type);
-    // runs our algorithm
-    bbound(tree, max_num_nodes, q, p);
-
-    Rprintf("final num_nodes: %zu\n", tree->num_nodes());
-    Rprintf("final num_evaluated: %zu\n", tree->num_evaluated());
-    Rprintf("final min_objective: %1.5f\n", tree->min_objective());
-    const tracking_vector<unsigned short, DataStruct::Tree>& r_list = tree->opt_rulelist();
-    Rprintf("final accuracy: %1.5f\n",
-       1 - tree->min_objective() + c*r_list.size());
-    print_final_rulelist(r_list, tree->opt_predictions(),
-                     latex_out, rules, labels, opt_fname);
-
-    Rprintf("final total time: %f\n", time_diff(init));
-    logger->dumpState();
-    logger->closeFile();
-    if (meta) {
-        Rprintf("\ndelete identical points indicator");
-        rules_free(meta, nmeta, 0);
-    }
-    Rprintf("\ndelete rules\n");
+    if (meta) rules_free(meta, nmeta, 0);
     rules_free(rules, nrules, 1);
-    Rprintf("delete labels\n");
     rules_free(labels, nlabels, 0);
-    Rprintf("tree destructors\n");
 
 
     return true;                  // more to fill in, naturally

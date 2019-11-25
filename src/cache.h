@@ -8,6 +8,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <memory>
+#include <algorithm>
 
 class Node {
   public:
@@ -17,7 +18,7 @@ class Node {
          double lower_bound, double objective, Node* parent,
          size_t num_captured, double equivalent_minority);
 
-    virtual ~Node() {}
+    virtual ~Node();
 
     inline unsigned short id() const;
     inline bool prediction() const;
@@ -73,6 +74,8 @@ class CuriousNode: public Node {
                  lower_bound, objective, (Node*)parent, num_captured, equivalent_minority) {
             curiosity_ = curiosity;
         }
+
+        ~CuriousNode() {};
 
         inline double get_curiosity() override;
     protected:
