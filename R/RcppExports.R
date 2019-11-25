@@ -15,7 +15,7 @@
 #' @param curiosity_policy Integer value (between 1 and 4) for best-fist search policy. Exactly one of \sQuote{breadth-first search} or \sQuote{curiosity_policy} \emph{must} be specified. The four different prirization schemes are chosen, respectively, by values of one for prioritize by curiousity (see Section 5.1 of the paper), two for prioritize by the lower bound, three for prioritize by the objective or four for depth-first search.
 #' @param latex_out Optional boolean toggle to select LaTeX output of the output rule list.
 #' @param map_type Optional integer value for the symmetry-aware map. Use zero for no symmetry-aware map (this is also the default), one for permutation map, and two for the captured vector map.
-#' @param verbosity Integer value
+#' @param verbosity_policy Optional character variable one containing one or more of the terms \sQuote{rule}, \sQuote{label}, \sQuote{minor}, \sQuote{samples}, \sQuote{progress}, \sQuote{loud}, or \sQuote{silent}.
 #' @param max_num_nodes Integer value for the maximum trie cache size; execution stops when the number of node isn trie exceeds this number; default is 100000.
 #' @param regularization Optional double value, default is 0.01 which can be thought of as a penalty equivalent to misclassifying 1\% of the data when increasing the length of a rule list by one association rule.
 #' @param logging_frequency Optional integer value with default of 1000.
@@ -40,12 +40,12 @@
 #'           dir.exists(logdir))
 #'
 #' corels(rules_file, labels_file, logdir, meta_file,
-#'        verbosity = 100,
+#'        verbosity_policy = "silent",
 #'        regularization = 0.015,
 #'        curiosity_policy = 2,   # by lower bound
 #'        map_type = 1) 	   # permutation map
 #' cat("See ", logdir, " for result file.")
-corels <- function(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE, calculate_size = FALSE, run_curiosity = FALSE, curiosity_policy = 0L, latex_out = FALSE, map_type = 0L, verbosity = 0L, max_num_nodes = 100000L, regularization = 0.01, logging_frequency = 1000L, ablation = 0L) {
-    .Call(`_RcppCorels_corels`, rules_file, labels_file, log_dir, meta_file, run_bfs, calculate_size, run_curiosity, curiosity_policy, latex_out, map_type, verbosity, max_num_nodes, regularization, logging_frequency, ablation)
+corels <- function(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE, calculate_size = FALSE, run_curiosity = FALSE, curiosity_policy = 0L, latex_out = FALSE, map_type = 0L, verbosity_policy = 0L, max_num_nodes = 100000L, regularization = 0.01, logging_frequency = 1000L, ablation = 0L) {
+    .Call(`_RcppCorels_corels`, rules_file, labels_file, log_dir, meta_file, run_bfs, calculate_size, run_curiosity, curiosity_policy, latex_out, map_type, verbosity_policy, max_num_nodes, regularization, logging_frequency, ablation)
 }
 

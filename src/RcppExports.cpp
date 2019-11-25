@@ -6,8 +6,8 @@
 using namespace Rcpp;
 
 // corels
-bool corels(std::string rules_file, std::string labels_file, std::string log_dir, std::string meta_file, bool run_bfs, bool calculate_size, bool run_curiosity, int curiosity_policy, bool latex_out, int map_type, int verbosity, int max_num_nodes, double regularization, int logging_frequency, int ablation);
-RcppExport SEXP _RcppCorels_corels(SEXP rules_fileSEXP, SEXP labels_fileSEXP, SEXP log_dirSEXP, SEXP meta_fileSEXP, SEXP run_bfsSEXP, SEXP calculate_sizeSEXP, SEXP run_curiositySEXP, SEXP curiosity_policySEXP, SEXP latex_outSEXP, SEXP map_typeSEXP, SEXP verbositySEXP, SEXP max_num_nodesSEXP, SEXP regularizationSEXP, SEXP logging_frequencySEXP, SEXP ablationSEXP) {
+bool corels(std::string rules_file, std::string labels_file, std::string log_dir, std::string meta_file, bool run_bfs, bool calculate_size, bool run_curiosity, int curiosity_policy, bool latex_out, int map_type, std::string verbosity_policy, int max_num_nodes, double regularization, int logging_frequency, int ablation);
+RcppExport SEXP _RcppCorels_corels(SEXP rules_fileSEXP, SEXP labels_fileSEXP, SEXP log_dirSEXP, SEXP meta_fileSEXP, SEXP run_bfsSEXP, SEXP calculate_sizeSEXP, SEXP run_curiositySEXP, SEXP curiosity_policySEXP, SEXP latex_outSEXP, SEXP map_typeSEXP, SEXP verbosity_policySEXP, SEXP max_num_nodesSEXP, SEXP regularizationSEXP, SEXP logging_frequencySEXP, SEXP ablationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -21,12 +21,12 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type curiosity_policy(curiosity_policySEXP);
     Rcpp::traits::input_parameter< bool >::type latex_out(latex_outSEXP);
     Rcpp::traits::input_parameter< int >::type map_type(map_typeSEXP);
-    Rcpp::traits::input_parameter< int >::type verbosity(verbositySEXP);
+    Rcpp::traits::input_parameter< std::string >::type verbosity_policy(verbosity_policySEXP);
     Rcpp::traits::input_parameter< int >::type max_num_nodes(max_num_nodesSEXP);
     Rcpp::traits::input_parameter< double >::type regularization(regularizationSEXP);
     Rcpp::traits::input_parameter< int >::type logging_frequency(logging_frequencySEXP);
     Rcpp::traits::input_parameter< int >::type ablation(ablationSEXP);
-    rcpp_result_gen = Rcpp::wrap(corels(rules_file, labels_file, log_dir, meta_file, run_bfs, calculate_size, run_curiosity, curiosity_policy, latex_out, map_type, verbosity, max_num_nodes, regularization, logging_frequency, ablation));
+    rcpp_result_gen = Rcpp::wrap(corels(rules_file, labels_file, log_dir, meta_file, run_bfs, calculate_size, run_curiosity, curiosity_policy, latex_out, map_type, verbosity_policy, max_num_nodes, regularization, logging_frequency, ablation));
     return rcpp_result_gen;
 END_RCPP
 }

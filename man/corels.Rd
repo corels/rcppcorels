@@ -6,7 +6,7 @@
 \usage{
 corels(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE,
   calculate_size = FALSE, run_curiosity = FALSE, curiosity_policy = 0L,
-  latex_out = FALSE, map_type = 0L, verbosity = 0L,
+  latex_out = FALSE, map_type = 0L, verbosity_policy = 0L,
   max_num_nodes = 100000L, regularization = 0.01,
   logging_frequency = 1000L, ablation = 0L)
 }
@@ -31,7 +31,7 @@ corels(rules_file, labels_file, log_dir, meta_file = "", run_bfs = FALSE,
 
 \item{map_type}{Optional integer value for the symmetry-aware map. Use zero for no symmetry-aware map (this is also the default), one for permutation map, and two for the captured vector map.}
 
-\item{verbosity}{Integer value}
+\item{verbosity_policy}{Optional character variable one containing one or more of the terms \sQuote{rule}, \sQuote{label}, \sQuote{minor}, \sQuote{samples}, \sQuote{progress}, \sQuote{loud}, or \sQuote{silent}.}
 
 \item{max_num_nodes}{Integer value for the maximum trie cache size; execution stops when the number of node isn trie exceeds this number; default is 100000.}
 
@@ -64,7 +64,7 @@ stopifnot(file.exists(rules_file),
           dir.exists(logdir))
 
 corels(rules_file, labels_file, logdir, meta_file,
-       verbosity = 100,
+       verbosity_policy = "silent",
        regularization = 0.015,
        curiosity_policy = 2,   # by lower bound
        map_type = 1) 	   # permutation map
