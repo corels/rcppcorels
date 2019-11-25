@@ -1,12 +1,18 @@
 #include "utils.h"
 #include <stdio.h>
 #include <assert.h>
-#include <sys/utsname.h>
+#include <sstream>
 
 #define STRICT_R_HEADERS
 #include "R.h"
 
-Logger::Logger(double c, size_t nrules, int verbosity, char* log_fname, int freq) {
+std::string sizet_tostring(size_t v) {
+    std::ostringstream ss;
+    ss << v;
+    return ss.str();
+}
+
+Logger::Logger(double c, size_t nrules, std::set<std::string> verbosity, char* log_fname, int freq) {
       _c = c;
       _nrules = nrules - 1;
       _v = verbosity;
@@ -19,7 +25,7 @@ Logger::Logger(double c, size_t nrules, int verbosity, char* log_fname, int freq
  * Sets the logger file name and writes the header line to the file.
  */
 void Logger::setLogFileName(char *fname) {
-    if (_v < 1) return;
+    if (!_v.size()) return;
 
     Rprintf("writing logs to: %s\n\n", fname);
     _f.open(fname, ios::out | ios::trunc);
@@ -40,10 +46,14 @@ void Logger::setLogFileName(char *fname) {
  * Writes current stats about the execution to the log file.
  */
 void Logger::dumpState() {
-    if (_v < 1) return;
-
     // update timestamp here
     setTotalTime(time_diff(_state.initial_time));
+
+    size_t space_size = 0;
+
+#ifdef GMP
+    space_size = getLogRemainingSpaceSize();
+#endif
 
     _f << _state.total_time << ","
        << _state.evaluate_children_time << ","
@@ -72,19 +82,23 @@ void Logger::dumpState() {
        << _state.pmap_size << ","
        << _state.pmap_null_num << ","
        << _state.pmap_discard_num << ","
-       << getLogRemainingSpaceSize() << ","
+       << space_size << ","
        << dumpPrefixLens().c_str() << endl;
 }
 
+#ifdef GMP
 /*
  * Uses GMP library to dump a string version of the remaining state space size.
  * This number is typically very large (e.g. 10^20) which is why we use GMP instead of a long.
  * Note: this function may not work on some Linux machines.
  */
 std::string Logger::dumpRemainingSpaceSize() {
-    mpz_class s(_state.remaining_space_size);
-    return s.get_str();
+    char* str = mpz_get_str(NULL, 10, _state.remaining_space_size);
+    std::string ret(str);
+    free(str);
+    return ret;
 }
+#endif
 
 /*
  * Function to convert vector of remaining prefix lengths to a string format for logging.
@@ -93,9 +107,9 @@ std::string Logger::dumpPrefixLens() {
     std::string s = "";
     for(size_t i = 0; i < _nrules; ++i) {
         if (_state.prefix_lens[i] > 0) {
-            s += std::to_string(i);
+            s += sizet_tostring(i);
             s += ":";
-            s += std::to_string(_state.prefix_lens[i]);
+            s += sizet_tostring(_state.prefix_lens[i]);
             s += ";";
         }
     }
@@ -159,20 +173,27 @@ void print_final_rulelist(const tracking_vector<unsigned short, DataStruct::Tree
     f.close();
 }
 
-/*
- * Prints out information about the machine.
- */
-void print_machine_info() {
-    struct utsname buffer;
+// Returns true on success
+bool parse_verbosity(char* str, char* verbstr, size_t verbstr_size, std::set<std::string>* verbosity) {
+    char *vopt, *verb_trim;
+    const char *vstr = VERBSTR;
 
-    if (uname(&buffer) == 0) {
-        Rprintf("System information:\n"
-               "system name-> %s; node name-> %s; release-> %s; "
-               "version-> %s; machine-> %s\n\n",
-               buffer.sysname,
-               buffer.nodename,
-               buffer.release,
-               buffer.version,
-               buffer.machine);
+    verb_trim = strtok(str, " ");
+    strncpy(verbstr, verb_trim, verbstr_size);
+    vopt = strtok(verb_trim, ",");
+    while (vopt != NULL) {
+        int voptlen = strlen(vopt);
+        const char* opt = strstr(vstr, vopt);
+        // Check if opt is actually a valid option rather than just contained in vstr
+        if(voptlen && opt && (opt == vstr || *(opt - 1) == '|') &&
+          (*(opt + voptlen) == '\0' || *(opt + voptlen) == '|')) {
+          verbosity->insert(vopt);
+          vopt = strtok(NULL, ",");
+        } else {
+          verbosity->clear();
+          return false;
+        }
     }
+
+    return true;
 }
