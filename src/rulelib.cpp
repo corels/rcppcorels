@@ -911,7 +911,7 @@ rule_vector_print(VECTOR v, int nsamples)
     }
     //fputs(str, stdout);
 	//fputc('\n', stdout);
-    Rprinft("%s\n", str);
+    Rprintf("%s\n", str);
 #else
     v_entry m = ~(((v_entry) -1) >> 1);
     unsigned n = (nsamples + BITS_PER_ENTRY - 1) / BITS_PER_ENTRY;
