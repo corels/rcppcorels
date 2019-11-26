@@ -1,3 +1,32 @@
+2019-11-26  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Build-time configuration
+	* configure: Idem
+	* src/Makevars.in: Idem
+	* src/Makevars.win: Updated default settings
+
+2019-11-25  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/cache.cpp: Updated (and renamed) from upstream version
+	* src/corels.cpp: Idem
+	* src/pmap.cpp: Idem
+	* src/rulelib.cpp: Idem
+	* src/utils.cpp: Idem
+	* src/cache.h: Updated upstream version
+	* src/pmap.h: Idem
+	* src/queue.h: Idem
+	* src/rules.h: Idem
+	* src/utils.h: Idem
+	* src/run.cpp: New upstream file
+	* src/run.h: Idem
+
+	* src/wrapper.cpp: Updated interface
+	* src/RcppExports.cpp: Idem
+	* R/RcppExports.R: Idem
+	* man/corels.Rd: Documented changed variable
+
+	* src/Makevars: Default build now with GMP
+
 2019-11-15  Dirk Eddelbuettel  <edd@debian.org>
 
 	* inst/AUTHORS: Added

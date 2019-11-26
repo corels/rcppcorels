@@ -1,0 +1,9 @@
+
+CXX_STD = CXX11
+
+#PKG_CFLAGS = -I. -I$(LIB_MPFR)/include -DGMP
+#PKG_CPPFLAGS = -I. -I$(LIB_MPFR)/include -DGMP
+#PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) -L$(LIB_MPFR)/lib -lgmpxx -lgmp
+
+PKG_CXXFLAGS = -I.
+PKG_LIBS = $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS)
