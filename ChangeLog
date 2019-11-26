@@ -4,6 +4,7 @@
 	* configure: Idem
 	* src/Makevars.in: Idem
 	* src/Makevars.win: Updated default settings
+	* cleanup: Added simple script
 
 2019-11-25  Dirk Eddelbuettel  <edd@debian.org>
 
