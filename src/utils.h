@@ -445,6 +445,7 @@ inline double time_diff(double t0) {
 #endif
 
 #include "alloc.h"
+
 /*
  * Prints the final rulelist that CORELS returns.
  * rulelist -- rule ids of optimal rulelist
