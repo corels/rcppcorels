@@ -1,3 +1,12 @@
+2019-12-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* DESCRIPTION (Version, Date): Roll minor version
+
+	* src/alloc.h: Make allocation tracking conditional on TRACK_ALLOC
+	* src/cache.h: Idem
+	* src/pmap.h: Idem
+	* src/utils.h: Idem
+
 2019-11-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Build-time configuration
@@ -67,13 +76,13 @@
         * inst/sample_data/compas_train.label: Idem
         * inst/sample_data/compas_train.minor: Idem
         * inst/sample_data/compas_train.out: Idem
-	
+
 	* src/wrapper.cpp: Added interface wrapper
 	* src/Makevars: Added minimal build system
 
 	* src/RcppExports.cpp: Added generated file
 	* R/RcppExports.R: Idem
-	
+
 	* src/rcpp_hello_world.cpp: Removed file added by package helper
 	* man/rcpp_hello_world.Rd: Idem
 	* Read-and-delete-me: Idem
