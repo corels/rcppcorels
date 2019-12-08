@@ -7,6 +7,9 @@
 	* src/pmap.h: Idem
 	* src/utils.h: Idem
 
+	* src/Makevars.in: Mention -DTRACK_ALLOC to enable tracking
+	* src/Makevars.win: Idem
+
 2019-11-26  Dirk Eddelbuettel  <edd@debian.org>
 
 	* configure.ac: Build-time configuration

@@ -50,8 +50,11 @@ As the package is not (yet?) on CRAN, do
 remotes::install_github("eddelbuettel/rcppcorels")
 ```
 
-Note that the currently _requires_ the [GNU GMP library](https://gmplib.org/)
-so do `sudo apt-get install libgmp-dev` or whatever you need to do on your system.
+Note of the [GNU GMP library](https://gmplib.org/) is now optional;
+`configure` will enable (via a `-DGMP` define and link instructions) if
+found. GMP will improve performance, so you may want to do `sudo apt-get
+install libgmp-dev`, or whatever equivalent command you need to install it on
+your system.
 
 ## TODOs
 
@@ -70,7 +73,7 @@ Elaine Angelino, Nicholas Larus-Stone, Daniel Alabi, Margo Seltzer, and
 Cynthia Rudin wrote the paper.
 
 Corels uses the rulelib library by Yang _et al_ described in the [2016 arXiv paper
-by Hongyu Yang, Cynthia Rudin, and Margo Seltzer](arXiv:1602.08610) with
+by Hongyu Yang, Cynthia Rudin, and Margo Seltzer](https://arxiv.org/abs/1602.08610) with
 [this code repo](https://github.com/Hongyuy/sbrlmod) and in the [2015 arXiv
 paper by Benjamin Letham, Cynthia Rudin, Tyler H. McCormick and David
 Madigan](https://arxiv.org/abs/1511.01644) now published in _Annals of Statistics_.
