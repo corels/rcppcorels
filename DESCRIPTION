@@ -1,8 +1,8 @@
 Package: RcppCorels
 Type: Package
 Title: R Binding for the 'Certifiably Optimal RulE ListS (Corels)' Learner 
-Version: 0.0.1.1
-Date: 2019-12-08
+Version: 0.0.1.2
+Date: 2019-12-18
 Author: Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: The 'Certifiably Optimal RulE ListS (Corels)' learner by
