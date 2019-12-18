@@ -1,3 +1,12 @@
+2019-12-18  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/corels.cpp: Refactored and simplified code used in R build
+	* src/rulelib.cpp: Idem
+	* src/run.cpp: Idem
+	* src/utils.cpp: Idem
+
+	* src/Makevars.in: Define -DR_BUILD to condition on
+
 2019-12-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* DESCRIPTION (Version, Date): Roll minor version

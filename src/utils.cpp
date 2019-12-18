@@ -3,8 +3,12 @@
 #include <assert.h>
 #include <sstream>
 
-#define STRICT_R_HEADERS
-#include "R.h"
+#if defined(R_BUILD)
+ #define STRICT_R_HEADERS
+ #include "R.h"
+ // textual substitution
+ #define printf Rprintf
+#endif
 
 std::string sizet_tostring(size_t v) {
     std::ostringstream ss;
@@ -27,7 +31,7 @@ Logger::Logger(double c, size_t nrules, std::set<std::string> verbosity, char* l
 void Logger::setLogFileName(char *fname) {
     if (!_v.size()) return;
 
-    Rprintf("writing logs to: %s\n\n", fname);
+    printf("writing logs to: %s\n\n", fname);
     _f.open(fname, ios::out | ios::trunc);
 
     _f << "total_time,evaluate_children_time,node_select_time,"
@@ -127,43 +131,43 @@ void print_final_rulelist(const tracking_vector<unsigned short, DataStruct::Tree
                           char fname[]) {
     assert(rulelist.size() == preds.size() - 1);
 
-    Rprintf("\nOPTIMAL RULE LIST\n");
+    printf("\nOPTIMAL RULE LIST\n");
     if (rulelist.size() > 0) {
-        Rprintf("if (%s) then (%s)\n", rules[rulelist[0]].features,
+        printf("if (%s) then (%s)\n", rules[rulelist[0]].features,
                labels[preds[0]].features);
         for (size_t i = 1; i < rulelist.size(); ++i) {
-            Rprintf("else if (%s) then (%s)\n", rules[rulelist[i]].features,
+            printf("else if (%s) then (%s)\n", rules[rulelist[i]].features,
                    labels[preds[i]].features);
         }
-        Rprintf("else (%s)\n\n", labels[preds.back()].features);
+        printf("else (%s)\n\n", labels[preds.back()].features);
 
         if (latex_out) {
-            Rprintf("\nLATEX form of OPTIMAL RULE LIST\n");
-            Rprintf("\\begin{algorithmic}\n");
-            Rprintf("\\normalsize\n");
-            Rprintf("\\State\\bif (%s) \\bthen (%s)\n", rules[rulelist[0]].features,
+            printf("\nLATEX form of OPTIMAL RULE LIST\n");
+            printf("\\begin{algorithmic}\n");
+            printf("\\normalsize\n");
+            printf("\\State\\bif (%s) \\bthen (%s)\n", rules[rulelist[0]].features,
                    labels[preds[0]].features);
             for (size_t i = 1; i < rulelist.size(); ++i) {
-                Rprintf("\\State\\belif (%s) \\bthen (%s)\n", rules[rulelist[i]].features,
+                printf("\\State\\belif (%s) \\bthen (%s)\n", rules[rulelist[i]].features,
                        labels[preds[i]].features);
             }
-            Rprintf("\\State\\belse (%s)\n", labels[preds.back()].features);
-            Rprintf("\\end{algorithmic}\n\n");
+            printf("\\State\\belse (%s)\n", labels[preds.back()].features);
+            printf("\\end{algorithmic}\n\n");
         }
     } else {
-        Rprintf("if (1) then (%s)\n\n", labels[preds.back()].features);
+        printf("if (1) then (%s)\n\n", labels[preds.back()].features);
 
         if (latex_out) {
-            Rprintf("\nLATEX form of OPTIMAL RULE LIST\n");
-            Rprintf("\\begin{algorithmic}\n");
-            Rprintf("\\normalsize\n");
-            Rprintf("\\State\\bif (1) \\bthen (%s)\n", labels[preds.back()].features);
-            Rprintf("\\end{algorithmic}\n\n");
+            printf("\nLATEX form of OPTIMAL RULE LIST\n");
+            printf("\\begin{algorithmic}\n");
+            printf("\\normalsize\n");
+            printf("\\State\\bif (1) \\bthen (%s)\n", labels[preds.back()].features);
+            printf("\\end{algorithmic}\n\n");
         }
     }
 
     ofstream f;
-    Rprintf("writing optimal rule list to: %s\n\n", fname);
+    printf("writing optimal rule list to: %s\n\n", fname);
     f.open(fname, ios::out | ios::trunc);
     for(size_t i = 0; i < rulelist.size(); ++i) {
         f << rules[rulelist[i]].features << "~"

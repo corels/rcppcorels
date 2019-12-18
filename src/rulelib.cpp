@@ -31,8 +31,12 @@
 #include "rule.h"
 #include "utils.h"
 
-#define STRICT_R_HEADERS
-#include "R.h"
+#if defined(R_BUILD)
+ #define STRICT_R_HEADERS
+ #include "R.h"
+ // textual substitution
+ #define printf Rprintf
+#endif
 
 /* Function declarations. */
 #define RULE_INC 100
@@ -120,9 +124,13 @@ rules_init(const char *infile, int *nrules,
 		line_data[len-1] = '\0';
 		if (ascii_to_vector(line_data, len, &sample_cnt, &ones,
 		    &rules[rule_cnt].truthtable) != 0) {
-			REprintf("Loading rule '%s' failed\n", rulestr);
-			errno = 1;
-			goto err;
+                        #if !defined(R_BUILD)
+                        fprintf(stderr, "Loading rule '%s' failed\n", rulestr);
+                        #else
+                        REprintf("Loading rule '%s' failed\n", rulestr);
+                        #endif
+                        errno = 1;
+                        goto err;
 		}
 		rules[rule_cnt].support = ones;
 
@@ -323,9 +331,14 @@ ascii_to_vector(char *line, size_t len, int *nsamples, int *nones, VECTOR *ret)
 	if (*nsamples == 0)
 		*nsamples = i;
 	else if (*nsamples != i) {
-		REprintf("Wrong number of samples. Expected %d got %d\n", *nsamples, i);
-		free(buf);
-		buf = NULL;
+                #if !defined(R_BUILD)
+                fprintf(stderr, "Wrong number of samples. Expected %d got %d\n",
+                    *nsamples, i);
+                #else
+                REprintf("Wrong number of samples. Expected %d got %d\n", *nsamples, i);
+                #endif
+                free(buf);
+                buf = NULL;
         ones = 0;
 	}
 	*nones = ones;
@@ -863,7 +876,7 @@ ruleset_print(ruleset_t *rs, rule_t *rules, int detail)
 	int i, n;
 	int total_support;
 
-	Rprintf("%d rules %d samples\n", rs->n_rules, rs->n_samples);
+	printf("%d rules %d samples\n", rs->n_rules, rs->n_samples);
 	n = rs->n_samples;
 
 	total_support = 0;
@@ -872,13 +885,13 @@ ruleset_print(ruleset_t *rs, rule_t *rules, int detail)
 		ruleset_entry_print(rs->rules + i, n, detail);
 		total_support += rs->rules[i].ncaptured;
 	}
-	Rprintf("Total Captured: %d\n", total_support);
+	printf("Total Captured: %d\n", total_support);
 }
 
 void
 ruleset_entry_print(ruleset_entry_t *re, int nsamples, int detail)
 {
-	Rprintf("%d captured; \n", re->ncaptured);
+	printf("%d captured; \n", re->ncaptured);
 	if (detail)
 		rule_vector_print(re->captures, nsamples);
 }
@@ -889,14 +902,14 @@ rule_print(rule_t *rules, int ndx, int nsamples, int detail)
     rule_t *r;
 
     r = rules + ndx;
-    Rprintf("RULE %d: ( %s ), support=%d, card=%d",
+    printf("RULE %d: ( %s ), support=%d, card=%d",
         ndx, r->features, r->support, r->cardinality);
     if (detail) {
-        Rprintf(":");
+        printf(":");
         rule_vector_print(r->truthtable, nsamples);
     }
     else
-        Rprintf("\n");
+        printf("\n");
 }
 
 void
@@ -906,23 +919,20 @@ rule_vector_print(VECTOR v, int nsamples)
 	char* str = mpz_get_str(NULL, 2, v);
     int len = strlen(str);
     for(int i = 0; i < (nsamples - len); i++) {
-        //fputc('0', stdout);
-        Rprintf("0");
+      printf("0");
     }
-    //fputs(str, stdout);
-	//fputc('\n', stdout);
-    Rprintf("%s\n", str);
+    printf("%s\n", str);
 #else
     v_entry m = ~(((v_entry) -1) >> 1);
     unsigned n = (nsamples + BITS_PER_ENTRY - 1) / BITS_PER_ENTRY;
     for(unsigned i = 0; i < n; i++) {
         v_entry t = v[i];
         for(unsigned j = 0; j < BITS_PER_ENTRY && (i * BITS_PER_ENTRY + j) < (unsigned)nsamples; j++) {
-            Rprintf("%d", !!(t & m));
+            printf("%d", !!(t & m));
             t <<= 1;
         }
     }
-    Rprintf("\n");
+    printf("\n");
 #endif
 
 }

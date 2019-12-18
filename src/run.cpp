@@ -6,8 +6,12 @@
 #include "queue.h"
 #include "run.h"
 
-#define STRICT_R_HEADERS
-#include "Rcpp.h"
+#if defined(R_BUILD)
+ #define STRICT_R_HEADERS
+ #include "R.h"
+ // textual substitution
+ #define printf Rprintf
+#endif
 
 #define BUFSZ 512
 
@@ -28,7 +32,12 @@ int run_corels_begin(double c, char* vstring, int curiosity_policy,
     char *vcopy_begin = vcopy;
     while ((vopt = strtok(vcopy, ",")) != NULL) {
         if (!strstr(voptions, vopt)) {
-            Rcpp::stop("verbosity options must be one or more of (%s)\n", voptions);
+            #if !defined(R_BUILD)
+            fprintf(stderr, "verbosity options must be one or more of (%s)\n", voptions);
+            #else
+            REprintf("verbosity options must be one or more of (%s)\n", voptions);
+            #endif
+            return -1;
         }
         verbosity.insert(vopt);
         vcopy = NULL;
@@ -44,25 +53,25 @@ int run_corels_begin(double c, char* vstring, int curiosity_policy,
 
 #ifndef GMP
     if (verbosity.count("progress"))
-        Rprintf("**Not using GMP library**\n");
+        printf("**Not using GMP library**\n");
 #endif
 
     if (verbosity.count("rule")) {
-        Rprintf("%d rules %d samples\n\n", nrules, nsamples);
+        printf("%d rules %d samples\n\n", nrules, nsamples);
         rule_print_all(rules, nrules, nsamples, verbosity.count("samples"));
-        Rprintf("\n\n");
+        printf("\n\n");
     }
 
     if (verbosity.count("label")) {
-        Rprintf("Labels (%d) for %d samples\n\n", nlabels, nsamples);
+        printf("Labels (%d) for %d samples\n\n", nlabels, nsamples);
         rule_print_all(labels, nlabels, nsamples, verbosity.count("samples"));
-        Rprintf("\n\n");
+        printf("\n\n");
     }
 
     if (verbosity.count("minor") && meta) {
-        Rprintf("Minority bound for %d samples\n\n", nsamples);
+        printf("Minority bound for %d samples\n\n", nsamples);
         rule_print_all(meta, 1, nsamples, verbosity.count("samples"));
-        Rprintf("\n\n");
+        printf("\n\n");
     }
 
     if(!logger) {
@@ -112,7 +121,7 @@ int run_corels_begin(double c, char* vstring, int curiosity_policy,
 
     tree = new CacheTree(nsamples, nrules, c, rules, labels, meta, ablation, calculate_size, type);
     if (verbosity.count("progress"))
-        Rprintf("%s", run_type);
+        printf("%s", run_type);
 
     bbound_begin(tree, queue);
 
@@ -146,11 +155,11 @@ double run_corels_end(std::vector<int>* rulelist, std::vector<int>* classes, int
     classes->push_back(preds.back());
 
     if (verbosity.count("progress")) {
-        Rprintf("final num_nodes: %zu\n", tree->num_nodes());
-        Rprintf("final num_evaluated: %zu\n", tree->num_evaluated());
-        Rprintf("final min_objective: %1.5f\n", tree->min_objective());
-        Rprintf("final accuracy: %1.5f\n", accuracy);
-        Rprintf("final total time: %f\n", time_diff(init));
+        printf("final num_nodes: %zu\n", tree->num_nodes());
+        printf("final num_evaluated: %zu\n", tree->num_evaluated());
+        printf("final min_objective: %1.5f\n", tree->min_objective());
+        printf("final accuracy: %1.5f\n", accuracy);
+        printf("final total time: %f\n", time_diff(init));
     }
 
     if(opt_fname) {
