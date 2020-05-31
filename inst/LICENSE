@@ -1,6 +1,6 @@
 
-RcppCorels is licensed under the GNU GPL-3.
+This R package corels is licensed under the GNU GPL-3.
 
-Corels is licensed under the GNU GPL-3.
+The upstream C++ project / library Corels is licensed under the GNU GPL-3.
 
 The rulelib library is released under the MIT license.

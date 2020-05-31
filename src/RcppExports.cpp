@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // corels
 bool corels(std::string rules_file, std::string labels_file, std::string log_dir, std::string meta_file, bool run_bfs, bool calculate_size, bool run_curiosity, int curiosity_policy, bool latex_out, int map_type, std::string verbosity_policy, int max_num_nodes, double regularization, int logging_frequency, int ablation);
-RcppExport SEXP _RcppCorels_corels(SEXP rules_fileSEXP, SEXP labels_fileSEXP, SEXP log_dirSEXP, SEXP meta_fileSEXP, SEXP run_bfsSEXP, SEXP calculate_sizeSEXP, SEXP run_curiositySEXP, SEXP curiosity_policySEXP, SEXP latex_outSEXP, SEXP map_typeSEXP, SEXP verbosity_policySEXP, SEXP max_num_nodesSEXP, SEXP regularizationSEXP, SEXP logging_frequencySEXP, SEXP ablationSEXP) {
+RcppExport SEXP _corels_corels(SEXP rules_fileSEXP, SEXP labels_fileSEXP, SEXP log_dirSEXP, SEXP meta_fileSEXP, SEXP run_bfsSEXP, SEXP calculate_sizeSEXP, SEXP run_curiositySEXP, SEXP curiosity_policySEXP, SEXP latex_outSEXP, SEXP map_typeSEXP, SEXP verbosity_policySEXP, SEXP max_num_nodesSEXP, SEXP regularizationSEXP, SEXP logging_frequencySEXP, SEXP ablationSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -32,11 +32,11 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_RcppCorels_corels", (DL_FUNC) &_RcppCorels_corels, 15},
+    {"_corels_corels", (DL_FUNC) &_corels_corels, 15},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_RcppCorels(DllInfo *dll) {
+RcppExport void R_init_corels(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

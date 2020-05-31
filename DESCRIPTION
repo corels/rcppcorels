@@ -1,4 +1,4 @@
-Package: RcppCorels
+Package: corels
 Type: Package
 Title: R Binding for the 'Certifiably Optimal RulE ListS (Corels)' Learner 
 Version: 0.0.1.2

@@ -1,5 +1,18 @@
 2020-05-31  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Package): Renamed to 'corels'
+	* NAMESPACE: Idem
+	* src/wrapper.cpp: Idem
+	* src/RcppExport.cpp: Idem
+	* R/RcppExport.R: Idem
+	* man/corels-package.Rd: Idem
+	* man/corels.Rd: Idem
+	* configure.ac: Idem
+	* configure: Idem
+	* README.md: Idem
+	* inst/LICENSE: Idem
+	* inst/AUTHORS: Idem
+
 	* src/Makevars.win (PKG_CXXFLAGS): Set -DR_BUILD also for Windows
 
 	* .travis.yml: Added to support continuous integration

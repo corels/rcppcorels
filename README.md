@@ -1,5 +1,5 @@
 
-# RcppCorels
+# corels
 
 R interface to 'Certifiably Optimal RulE ListS' (Corels)
 

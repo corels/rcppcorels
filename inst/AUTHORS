@@ -1,5 +1,5 @@
 
-Dirk Eddelbuettel wrote the R package 'RcppCorels' providing R integration.
+Dirk Eddelbuettel wrote the R package 'corels' providing R integration.
 
 Nicholas Larus-Stone and Elaine Angelino wrote the C++ implementation of Corels at
 https://github.com/nlarusstone/corels. Elaine Angelino, Nicholas Larus-Stone, Daniel

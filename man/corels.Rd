@@ -51,12 +51,12 @@ R Interface to 'Certifiably Optimal RulE ListS (Corels)'
 CORELS is a custom discrete optimization technique for building rule lists over a categorical feature space. The algorithm provides the optimal solution with a certificate of optimality. By leveraging algorithmic bounds, efficient data structures, and computational reuse, it achieves several orders of magnitude speedup in time and a massive reduction of memory consumption. This approach produces optimal rule lists on practical problems in seconds, and offers a novel alternative to CART and other decision tree methods.
 }
 \examples{
-library(RcppCorels)
+library(corels)
 
 logdir <- tempdir()
-rules_file <- system.file("sample_data", "compas_train.out", package="RcppCorels")
-labels_file <- system.file("sample_data", "compas_train.label", package="RcppCorels")
-meta_file <- system.file("sample_data", "compas_train.minor", package="RcppCorels")
+rules_file <- system.file("sample_data", "compas_train.out", package="corels")
+labels_file <- system.file("sample_data", "compas_train.label", package="corels")
+meta_file <- system.file("sample_data", "compas_train.minor", package="corels")
 
 stopifnot(file.exists(rules_file),
           file.exists(labels_file),

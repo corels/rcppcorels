@@ -39,12 +39,12 @@
 //' Nicholas Larus-Stone. *Learning Certifiably Optimal Rule Lists: A Case For Discrete Optimization in the 21st Century. Senior thesis 2017. https://dash.harvard.edu/handle/1/38811502.
 //' Elaine Angelino, Nicholas Larus-Stone, Daniel Alabi, Margo Seltzer, Cynthia Rudin. *Learning certifiably optimal rule lists for categorical data*. KDD 2017, https://www.kdd.org/kdd2017/papers/view/learning-certifiably-optimal-rule-lists-for-categorical-data.
 //' @examples
-//' library(RcppCorels)
+//' library(corels)
 //'
 //' logdir <- tempdir()
-//' rules_file <- system.file("sample_data", "compas_train.out", package="RcppCorels")
-//' labels_file <- system.file("sample_data", "compas_train.label", package="RcppCorels")
-//' meta_file <- system.file("sample_data", "compas_train.minor", package="RcppCorels")
+//' rules_file <- system.file("sample_data", "compas_train.out", package="corels")
+//' labels_file <- system.file("sample_data", "compas_train.label", package="corels")
+//' meta_file <- system.file("sample_data", "compas_train.minor", package="corels")
 //'
 //' stopifnot(file.exists(rules_file),
 //'           file.exists(labels_file),
