@@ -1,3 +1,9 @@
+2020-05-31  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.win (PKG_CXXFLAGS): Set -DR_BUILD also for Windows
+
+	* .travis.yml: Added to support continuous integration
+
 2019-12-18  Dirk Eddelbuettel  <edd@debian.org>
 
 	* src/corels.cpp: Refactored and simplified code used in R build
