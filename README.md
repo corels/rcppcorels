@@ -5,7 +5,7 @@
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/corels)](https://cran.r-project.org/package=corels)
 [![Dependencies](https://tinyverse.netlify.com/badge/corels)](https://cran.r-project.org/package=corels)
-[![Downloads](http://cranlogs.r-pkg.org/badges/corels?color=brightgreen)](http://www.r-pkg.org/pkg/corels)
+[![Downloads](http://cranlogs.r-pkg.org/badges/corels?color=brightgreen)](https://www.r-pkg.org:443/pkg/corels)
 
 ## What is it?
 
@@ -17,12 +17,11 @@ magnitude speedup in time and a massive reduction of memory consumption. This
 approach produces  optimal rule lists  on practical problems in  seconds, and
 offers a novel alternative to CART and other decision tree methods.
 
-See the [C++ implementation](https://github.com/nlarusstone/corels), the
+See the [C++ implementation](https://github.com/corels/corels), the
 [live website](https://corels.eecs.harvard.edu/), the [Python
-implementation](https://github.com/fingoldin/pycorels/), the [arXiv
+implementation](https://github.com/corels/pycorels), the [arXiv
 paper](https://arxiv.org/abs/1704.01701), the [JMLR
-paper](http://www.jmlr.org/papers/volume18/17-716/17-716.pdf), the [SysML
-paper](http://www.sysml.cc/doc/2018/54.pdf), the [senior
+paper](https://www.jmlr.org/papers/volume18/17-716/17-716.pdf), the [senior
 thesis](https://dash.harvard.edu/handle/1/38811502) or the [KDD 2017
 paper](https://www.kdd.org/kdd2017/papers/view/learning-certifiably-optimal-rule-lists-for-categorical-data)
 for more.
@@ -34,12 +33,12 @@ More about Corels can also be read in [this recent post at _The Morning Paper_](
 ![](https://raw.githubusercontent.com/fingoldin/pycorels/master/utils/Corels.png)
 
 With thanks to the [Python
-implementation](https://github.com/fingoldin/pycorels/) for the image.
+implementation](https://github.com/corels/pycorels) for the image.
 
 ## What is this package?
 
 We use [Rcpp](https://github.com/RcppCore/Rcpp) to connect the [Corels C++
-implementation](https://github.com/nlarusstone/corels) to R.
+implementation](https://github.com/corels/corels) to R.
 
 ## Status
 
