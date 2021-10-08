@@ -1,8 +1,8 @@
 Package: corels
 Type: Package
 Title: R Binding for the 'Certifiably Optimal RulE ListS (Corels)' Learner
-Version: 0.0.2
-Date: 2020-05-31
+Version: 0.0.3
+Date: 2021-10-08
 Author: Dirk Eddelbuettel
 Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Description: The 'Certifiably Optimal RulE ListS (Corels)' learner by
