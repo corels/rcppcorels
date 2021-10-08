@@ -1,9 +1,9 @@
 
-# require at least autoconf 2.61
-AC_PREREQ(2.61)
+# require at least autoconf 2.69
+AC_PREREQ([2.69])
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT([corels],[0.0.2])
+AC_INIT([corels],[0.0.3])
 
 # Ensure C++ is set up as R expects
 : ${R_HOME=`R RHOME`}
@@ -32,4 +32,5 @@ AC_CHECK_LIB(gmp, __gmpz_init, ,
 # Now substitute these variables in src/Makevars.in to create src/Makevars
 AC_SUBST(GMP_CFLAGS, ["${GMPFLAG} ${CFLAGS}"])
 AC_SUBST(GMP_LIBS, ${LIBS})
-AC_OUTPUT(src/Makevars)
+AC_CONFIG_FILES([src/Makevars])
+AC_OUTPUT
