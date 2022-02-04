@@ -3,7 +3,7 @@
 AC_PREREQ([2.69])
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT([corels],[0.0.3])
+AC_INIT([corels],[0.0.4])
 
 # Ensure C++ is set up as R expects
 : ${R_HOME=`R RHOME`}
@@ -12,6 +12,8 @@ if test -z "${R_HOME}"; then
 fi
 CXX=`"${R_HOME}/bin/R" CMD config CXX`
 CXXFLAGS=`"${R_HOME}/bin/R" CMD config CXXFLAGS`
+CPPFLAGS=`"${R_HOME}/bin/R" CMD config CPPFLAGS`
+LDFLAGS=`"${R_HOME}/bin/R" CMD config LDFLAGS`
 AC_LANG(C++)
 AC_REQUIRE_CPP
 AC_PROG_CC

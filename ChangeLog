@@ -1,6 +1,12 @@
+2022-02-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac: Set LD and CPPFLAGS to find the GMP library on M1mac
+	* configure: Rebuilt
+
 2021-11-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml: Add CI runner using r-ci
+	* README.md: Add new badge for GitHub Actions CI
 
 2021-10-08  Dirk Eddelbuettel  <edd@debian.org>
 
