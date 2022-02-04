@@ -14,3 +14,4 @@ LICENSE
 ^GTAGS
 ^local
 quickTest.R
+^\.github

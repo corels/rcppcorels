@@ -1,7 +1,7 @@
 
 # corels: R interface to 'Certifiably Optimal RulE ListS' (Corels)
 
-[![Build Status](https://travis-ci.org/corels/rcppcorels.svg)](https://travis-ci.org/corels/rcppcorels)
+[![CI](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml/badge.svg)](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/corels)](https://cran.r-project.org/package=corels)
 [![Dependencies](https://tinyverse.netlify.com/badge/corels)](https://cran.r-project.org/package=corels)
