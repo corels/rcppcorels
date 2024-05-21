@@ -4,7 +4,7 @@
 [![CI](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml/badge.svg)](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml)
 [![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/corels)](https://cran.r-project.org/package=corels)
-[![Dependencies](https://tinyverse.netlify.com/badge/corels)](https://cran.r-project.org/package=corels)
+[![Dependencies](https://tinyverse.netlify.app/badge/corels)](https://cran.r-project.org/package=corels)
 [![Downloads](http://cranlogs.r-pkg.org/badges/corels?color=brightgreen)](https://www.r-pkg.org:443/pkg/corels)
 
 ## What is it?
