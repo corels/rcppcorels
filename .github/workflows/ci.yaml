@@ -23,11 +23,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Bootstrap
-        run: |
-          curl -OLs https://eddelbuettel.github.io/r-ci/run.sh
-          chmod 0755 run.sh
-          ./run.sh bootstrap
+      - name: Setup
+        uses: eddelbuettel/github-actions/r-ci-setup@master
 
       - name: Dependencies
         run: ./run.sh install_deps
