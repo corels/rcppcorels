@@ -1,3 +1,7 @@
+2024-08-08  Dirk Eddelbuettel  <edd@debian.org>
+
+	* README.md: Switch three more some URLs from http to https
+
 2024-06-20  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Update to r-ci-setup action
