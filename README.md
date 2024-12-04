@@ -18,11 +18,11 @@ approach produces  optimal rule lists  on practical problems in  seconds, and
 offers a novel alternative to CART and other decision tree methods.
 
 See the [C++ implementation](https://github.com/corels/corels), the
-[live website](https://corels.eecs.harvard.edu/), the [Python
+[live website](https://corels.cs.ubc.ca/corels), the [Python
 implementation](https://github.com/corels/pycorels), the [arXiv
 paper](https://arxiv.org/abs/1704.01701), the [JMLR
 paper](https://www.jmlr.org/papers/volume18/17-716/17-716.pdf), the [senior
-thesis](https://dash.harvard.edu/handle/1/38811502) or the [KDD 2017
+thesis](https://corels.cs.ubc.ca/corels/Larus-Stone_thesis.pdf) or the [KDD 2017
 paper](https://www.kdd.org/kdd2017/papers/view/learning-certifiably-optimal-rule-lists-for-categorical-data)
 for more.
 
@@ -77,7 +77,7 @@ Cynthia Rudin wrote the paper.
 
 Corels uses the rulelib library by Yang _et al_ described in the [2016 arXiv paper
 by Hongyu Yang, Cynthia Rudin, and Margo Seltzer](https://arxiv.org/abs/1602.08610) with
-[this code repo](https://github.com/Hongyuy/sbrlmod) and in the [2015 arXiv
+[this code repo](https://github.com/Hongyuy/sbrl) and in the [2015 arXiv
 paper by Benjamin Letham, Cynthia Rudin, Tyler H. McCormick and David
 Madigan](https://arxiv.org/abs/1511.01644) now published in _Annals of Statistics_.
 
