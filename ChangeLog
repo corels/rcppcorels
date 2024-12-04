@@ -1,3 +1,8 @@
+2024-12-04  Dirk Eddelbuettel  <edd@debian.org>
+
+	* src/Makevars.in: No longer set C++ compilation standard to C++11
+	* src/Makevars.win: Idem
+
 2024-08-08  Dirk Eddelbuettel  <edd@debian.org>
 
 	* README.md: Switch three more some URLs from http to https
