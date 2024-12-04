@@ -1,5 +1,7 @@
 2024-12-04  Dirk Eddelbuettel  <edd@debian.org>
 
+	* DESCRIPTION (Authors@R): Added
+
 	* src/Makevars.in: No longer set C++ compilation standard to C++11
 	* src/Makevars.win: Idem
 
