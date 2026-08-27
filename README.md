@@ -2,9 +2,10 @@
 # corels: R interface to 'Certifiably Optimal RulE ListS' (Corels)
 
 [![CI](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml/badge.svg)](https://github.com/corels/rcppcorels/actions/workflows/ci.yaml)
-[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![License](https://eddelbuettel.github.io/badges/GPL2+.svg)](https://www.r-project.org/Licenses/GPL-2)
 [![CRAN](https://www.r-pkg.org/badges/version/corels)](https://cran.r-project.org/package=corels)
 [![Dependencies](https://tinyverse.netlify.app/badge/corels)](https://cran.r-project.org/package=corels)
+[![r-universe](https://corels.r-universe.dev/badges/corels)](https://corels.r-universe.dev/corels)
 [![Downloads](https://cranlogs.r-pkg.org/badges/corels?color=brightgreen)](https://www.r-pkg.org:443/pkg/corels)
 
 ## What is it?

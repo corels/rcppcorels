@@ -4,6 +4,9 @@
 
 	* .github/workflows/ci.yaml: Switch to actions/checkout@v7
 
+	* README.md: Use R-Project URL for GPL-2 to avoid timeout on package
+	check, add r-universe badge
+
 2025-09-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Use r-ci with embedded bootstrap
