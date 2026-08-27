@@ -1,3 +1,7 @@
+2026-08-27  Dirk Eddelbuettel  <edd@debian.org>
+
+	* configure.ac (GMP_CFLAGS): Ensure we pass CXXFLAGS to PKG_CXXFLAGS
+
 2025-09-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Use r-ci with embedded bootstrap
