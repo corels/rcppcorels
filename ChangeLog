@@ -2,6 +2,8 @@
 
 	* configure.ac (GMP_CFLAGS): Ensure we pass CXXFLAGS to PKG_CXXFLAGS
 
+	* .github/workflows/ci.yaml: Switch to actions/checkout@v7
+
 2025-09-14  Dirk Eddelbuettel  <edd@debian.org>
 
 	* .github/workflows/ci.yaml (jobs): Use r-ci with embedded bootstrap
