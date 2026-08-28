@@ -3,7 +3,7 @@
 AC_PREREQ([2.69])
 
 # Process this file with autoconf to produce a configure script.
-AC_INIT([corels],[0.0.5])
+AC_INIT([corels],[0.0.6])
 
 # Ensure C++ is set up as R expects
 : ${R_HOME=`R RHOME`}

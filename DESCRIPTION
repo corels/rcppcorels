@@ -1,8 +1,8 @@
 Package: corels
 Type: Package
 Title: R Binding for the 'Certifiably Optimal RulE ListS (Corels)' Learner
-Version: 0.0.5
-Date: 2024-12-04
+Version: 0.0.6
+Date: 2026-08-28
 Authors@R: c(person("Dirk", "Eddelbuettel", role = c("aut", "cre"), email = "edd@debian.org",
                     comment = c(ORCID = "0000-0001-6419-907X")),
              person("Nicholas", "Larus-Stone", role = "aut", comment = "Corels C++ Library and paper"),
